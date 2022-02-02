@@ -5,6 +5,7 @@ import com.zhifeng.homework_jpa.dtos.actor.ActorPostDto;
 import com.zhifeng.homework_jpa.entities.Actor;
 import com.zhifeng.homework_jpa.services.ActorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,10 @@ import java.util.Optional;
 public class ActorController {
 
     private final ActorService actorService;
-
+//  GET for query (select)
+//  Post for insert (create)
+//  Put for update
+//  Delete for delete
     @GetMapping("/findAll")
     // at the method level applications will prefer to use one of the HTTP method specific variants @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, or @PatchMapping.
     public ResponseEntity<List<ActorGetDto>> find() {
@@ -62,4 +66,19 @@ public class ActorController {
         return actorService.insertActor(firstName, lastName, gender, date);
 
     }
+
+    @DeleteMapping("/{actorId}")
+    public ResponseEntity deleteActor(@PathVariable("actorId") Long id){
+        actorService.deleteActor(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/updateActor")
+    public ResponseEntity updateActor(@RequestParam(value = "id") Long id, @RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, @RequestParam(value = "gender") String gender, @RequestParam(value = "dateOfBirth") String dateOfBirth){
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(dateOfBirth, fmt);
+        actorService.updateActor(id, firstName, lastName, gender, date);
+        return ResponseEntity.ok().build();
+    }
+
 }

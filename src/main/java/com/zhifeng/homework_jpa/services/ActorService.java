@@ -7,7 +7,9 @@ import com.zhifeng.homework_jpa.mappers.ActorMapper;
 import com.zhifeng.homework_jpa.repositories.ActorsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ActorService {
+
     private final ActorsRepository actorsRepository;
     private final ActorMapper actorMapper;
 
@@ -46,15 +49,26 @@ public class ActorService {
         return actorGetDto;
     }
 
+    @Transactional
     public int insertActor(String firstName, String lastName, String gender, LocalDate dateOfBirth) {
-
         return actorsRepository.insertActor(firstName, lastName, gender, dateOfBirth);
     }
 
+    @Transactional
     public ActorGetDto createActor(ActorPostDto actorPostDto) {
         Actor actor = actorMapper.toEntity(actorPostDto);
         ActorGetDto actorGetDto = actorMapper.fromEntity(actorsRepository.save(actor));
         return actorGetDto;
+    }
+
+    @Transactional
+    public void deleteActor(Long id) {
+        actorsRepository.deleteActorById(id);
+    }
+
+    @Transactional
+    public void updateActor(Long id,String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+        actorsRepository.updateActorById(id, firstName, lastName, gender, dateOfBirth);
     }
 
 }

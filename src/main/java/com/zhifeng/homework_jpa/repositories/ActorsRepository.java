@@ -19,8 +19,14 @@ public interface ActorsRepository extends JpaRepository<Actor, Long> {
     List<Actor> findByLastNameAndLastName(@Param("lastName") String lastName, @Param("firstName") String firstName);
 
     @Modifying
-    @Transactional
     @Query(value = "insert into actors(first_name,last_name,gender,date_Of_Birth) values(?,?,?,?)", nativeQuery = true)
     int insertActor(@Param("firstName") String firstName, @Param("lastName") String lastName, @Param("gender") String gender, LocalDate dateOfBirth);
 
+    @Modifying
+    @Query("delete from Actor a where a.id = :id")
+    void deleteActorById(@Param("id") long id);
+
+    @Modifying
+    @Query("UPDATE Actor a set a.firstName=:firstName, a.lastName = :lastName, a.gender = :gender, a.dateOfBirth = :dateOfBirth where a.id = :id")
+    void updateActorById(@Param("id") long id, @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("gender") String gender, @Param("dateOfBirth") LocalDate dateOfBirth);
 }
