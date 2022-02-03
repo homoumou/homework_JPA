@@ -7,7 +7,6 @@ import com.zhifeng.homework_jpa.mappers.ActorMapper;
 import com.zhifeng.homework_jpa.repositories.ActorsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,36 +15,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.awt.SystemColor.info;
+
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor //建议使用构造器注入
 public class ActorService {
-
+    //@Autowired  无法赋值
     private final ActorsRepository actorsRepository;
     private final ActorMapper actorMapper;
 
     public List<ActorGetDto> getAllActors() {
-        return actorsRepository.findAll().stream()
-                .map(actor -> actorMapper.fromEntity(actor))
-                .collect(Collectors.toList());
+        return actorsRepository.findAll().stream().map(actor -> actorMapper.fromEntity(actor)).collect(Collectors.toList());
     }
 
     public Optional<Actor> getActorsById(Long id) {
+        log.debug("this is debug info:{}", id);
+        log.info("this is log info:{}", id);
         Optional<Actor> actor = actorsRepository.findById(id);
         return actor;
     }
 
     public List<ActorGetDto> getActorsByFirstName(String firstName) {
-        List<ActorGetDto> actorGetDto = actorsRepository.findByFirstName(firstName).stream()
-                .map(actor -> actorMapper.fromEntity(actor))
-                .collect(Collectors.toList());
+        List<ActorGetDto> actorGetDto = actorsRepository.findByFirstName(firstName).stream().map(actor -> actorMapper.fromEntity(actor)).collect(Collectors.toList());
         return actorGetDto;
     }
 
     public List<ActorGetDto> getActorsByFirstNameAndLastName(String firstName, String lastName) {
-        List<ActorGetDto> actorGetDto = actorsRepository.findByLastNameAndLastName(firstName, lastName).stream()
-                .map(actor -> actorMapper.fromEntity(actor))
-                .collect(Collectors.toList());
+        List<ActorGetDto> actorGetDto = actorsRepository.findByLastNameAndLastName(firstName, lastName).stream().map(actor -> actorMapper.fromEntity(actor)).collect(Collectors.toList());
         return actorGetDto;
     }
 
@@ -67,7 +64,7 @@ public class ActorService {
     }
 
     @Transactional
-    public void updateActor(Long id,String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+    public void updateActor(Long id, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
         actorsRepository.updateActorById(id, firstName, lastName, gender, dateOfBirth);
     }
 

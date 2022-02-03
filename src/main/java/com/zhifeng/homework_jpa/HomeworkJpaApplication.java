@@ -19,12 +19,19 @@ import org.springframework.context.annotation.Bean;
 @ComponentScan: Tells Spring to look for other components, configurations, and services in the com/example package, letting it find the controllers.
 *
 */
-@SpringBootApplication
+@SpringBootApplication //标注为springBoot的主配置
 public class HomeworkJpaApplication {
     private static final Logger log =
             LoggerFactory.getLogger(HomeworkJpaApplication.class);
 
     public static void main(String[] args) {
+        //该方法返回一个ConfigurableApplicationContext对象
+        //参数一：应用入口的类； 参数二：命令行参数
+        /**
+         * 分析该方法主要分两部分
+         * 一是SpringApplication的实例化，
+         * 二是run方法的执行；
+         */
         SpringApplication.run(HomeworkJpaApplication.class, args);
     }
 

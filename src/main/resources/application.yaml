@@ -1,0 +1,14 @@
+person:
+#  生成随机数
+  name: qinjiang${random.uuid}
+  age: ${random.int}
+  happy: false
+  birth: 2020/07/13
+  maps: {k1: v1,k2: v2}
+  lists:
+    - code
+    - music
+    - girl
+  dog:
+    name: ${person.hell:hello}_旺财
+    age: 3
