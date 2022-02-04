@@ -1,10 +1,10 @@
 person:
 #  生成随机数
   name: qinjiang${random.uuid}
-  age: ${random.int}
+  age: 110
   happy: false
   birth: 2020/07/13
-  email: hohowrongemail
+  email: hohowrongemail@mail.com
   maps: {k1: v1,k2: v2}
   lists:
     - code
